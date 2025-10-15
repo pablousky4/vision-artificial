@@ -111,4 +111,6 @@ Desarrollado por: [<a href="https://github.com/pablousky4">Pxblo</a>]
 Este proyecto está bajo la licencia MIT, lo que significa que puedes modificarlo y distribuirlo libremente con atribución.
 
 ---
-https://camo.githubusercontent.com/7d32f1046f9203b9862b94f65b249640742c8701bf19fecd72183292541fe38e/68747470733a2f2f6d656469612e67697068792e636f6d2f6d656469612f6c3045786b3845557a534c7372457245512f67697068792e676966
+<p align="center">
+  <img src="https://camo.githubusercontent.com/7d32f1046f9203b9862b94f65b249640742c8701bf19fecd72183292541fe38e/68747470733a2f2f6d656469612e67697068792e636f6d2f6d656469612f6c3045786b3845557a534c7372457245512f67697068792e676966" alt="Demo CNN App" width="600"/>
+</p>
