@@ -5,6 +5,8 @@ import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
 import io
+import base64
+from tensorflow.keras.datasets import cifar10
 
 # -------------------------------
 # 🔹 Configuración de la app
@@ -131,6 +133,35 @@ if inverse_file is not None:
         st.info("La reconstrucción real requeriría un modelo generativo (autoencoder, GAN, etc.).")
     except Exception as e:
         st.error(f"Error al reconstruir: {e}")
+
+# -------------------------------
+# 🔹 Muestras descargables CIFAR-10
+# -------------------------------
+st.header("🧩 Descarga imágenes de ejemplo (CIFAR-10)")
+
+(x_train, y_train), _ = cifar10.load_data()
+
+# Selector de clase
+selected_class = st.selectbox("Elige una clase para descargar una imagen de ejemplo:", class_names)
+
+# Mostrar y permitir descarga
+if selected_class:
+    class_idx = class_names.index(selected_class)
+    idx = np.where(y_train.flatten() == class_idx)[0][0]
+    sample_img = x_train[idx]
+    st.image(sample_img, caption=f"Ejemplo de: {selected_class}", width=200)
+
+    # Convertir a bytes para descargar
+    img_pil = Image.fromarray(sample_img)
+    img_bytes = io.BytesIO()
+    img_pil.save(img_bytes, format="PNG")
+
+    st.download_button(
+        label=f"⬇️ Descargar imagen de {selected_class}",
+        data=img_bytes.getvalue(),
+        file_name=f"{selected_class}.png",
+        mime="image/png"
+    )
 
 # -------------------------------
 # 🔹 Pie
