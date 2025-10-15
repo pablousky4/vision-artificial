@@ -167,4 +167,4 @@ if selected_class:
 # 🔹 Pie
 # -------------------------------
 st.markdown("---")
-st.caption("🧠 App desarrollada con TensorFlow + Streamlit | CIFAR-10 CNN Demo")
+st.caption("🧠 App desarrollada con TensorFlow + Streamlit | Pxblo")
