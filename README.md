@@ -28,7 +28,7 @@ Asegúrate de tener instaladas las siguientes dependencias:
 pip install streamlit tensorflow matplotlib pillow numpy
 
 ---
-🏗️ Estructura del proyecto
+## 🏗️ Estructura del proyecto
 <pre> ```
 📁 vision-artificial/
 │
@@ -98,17 +98,17 @@ Esta app fue diseñada para fines educativos, ideal para visualizar cómo una CN
 
 La reconstrucción inversa es una simulación, ya que las CNN no son directamente invertibles sin modelos generativos (como Autoencoders o GANs).
 
-📁 Ejemplo visual
-<img src="https://upload.wikimedia.org/wikipedia/commons/6/61/CIFAR10.png" width="400"/>
-
 ---
 
 👨‍💻 Autor
 
-Desarrollado por: [Pxblo]
+Desarrollado por: [<a href="https://github.com/pablousky4">Pxblo</a>]
 
 ---
 
 🧾 Licencia
 
 Este proyecto está bajo la licencia MIT, lo que significa que puedes modificarlo y distribuirlo libremente con atribución.
+
+---
+https://camo.githubusercontent.com/7d32f1046f9203b9862b94f65b249640742c8701bf19fecd72183292541fe38e/68747470733a2f2f6d656469612e67697068792e636f6d2f6d656469612f6c3045786b3845557a534c7372457245512f67697068792e676966
