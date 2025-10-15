@@ -27,6 +27,7 @@ Asegúrate de tener instaladas las siguientes dependencias:
 
 pip install streamlit tensorflow matplotlib pillow numpy
 
+---
 
 📁 vision-artificial/
 │
@@ -36,6 +37,7 @@ pip install streamlit tensorflow matplotlib pillow numpy
 ├── README.md               # Este archivo
 └── requirements.txt        # Dependencias (opcional)
 
+---
 
 Ejecución
 
@@ -57,7 +59,7 @@ streamlit run app.py
 
 Abre tu navegador en http://localhost:8501
 
-
+---
 
 🧠 Dataset utilizado
 
@@ -85,11 +87,13 @@ Barco 🚤
 
 Camión 🚚
 
+---
 
 👨‍💻 Autor
 
 Desarrollado por: [Pxblo]
 
+---
 
 🧾 Licencia
 
