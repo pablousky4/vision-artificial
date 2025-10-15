@@ -29,7 +29,7 @@ def load_model():
         layers.Dense(64, activation='relu'),
         layers.Dense(10, activation='softmax')
     ])
-    model.load_weights("cnn_cifar10_weights.h5")  # Asegúrate de tener este archivo guardado
+    model.load_weights("cnn_cifar10.weights.h5")  # Asegúrate de tener este archivo guardado
     return model
 
 model = load_model()
