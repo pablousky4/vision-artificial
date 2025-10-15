@@ -28,7 +28,7 @@ Asegúrate de tener instaladas las siguientes dependencias:
 pip install streamlit tensorflow matplotlib pillow numpy
 
 ---
-
+<pre> ```
 📁 vision-artificial/
 │
 ├── cnn_cifrar10.ipynb      #Jupyter notebook para crear el modelo
@@ -36,7 +36,7 @@ pip install streamlit tensorflow matplotlib pillow numpy
 ├── cnn_cifar10.weights.h5  # Pesos del modelo (opcional)
 ├── README.md               # Este archivo
 └── requirements.txt        # Dependencias (opcional)
-
+``` </pre>
 ---
 
 Ejecución
