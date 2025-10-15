@@ -4,6 +4,7 @@ from tensorflow.keras import layers, models
 import numpy as np
 from PIL import Image
 import matplotlib.pyplot as plt
+import io
 
 # -------------------------------
 # 🔹 Configuración de la app
@@ -65,9 +66,23 @@ if uploaded_file is not None:
 
     st.image(image, caption="🖼️ Imagen subida", width=200)
 
+    # Predicción
     prediction = model.predict(input_data)
     predicted_class = np.argmax(prediction)
     st.subheader(f"🎯 Predicción: {class_names[predicted_class].capitalize()}")
+
+    # -------------------------------
+    # 🔹 Botón para descargar el output (.npy)
+    # -------------------------------
+    st.markdown("#### 💾 Descargar el vector de salida (`output`) del modelo")
+    output_bytes = io.BytesIO()
+    np.save(output_bytes, prediction)
+    st.download_button(
+        label="⬇️ Descargar output (.npy)",
+        data=output_bytes.getvalue(),
+        file_name="cnn_output.npy",
+        mime="application/octet-stream"
+    )
 
     # -------------------------------
     # 🔹 Visualización paso a paso
@@ -109,6 +124,7 @@ if inverse_file is not None:
     try:
         output_array = np.load(inverse_file)
         st.write("✅ Archivo cargado correctamente")
+        st.write("🔢 Vector de salida:", output_array)
 
         reconstructed = np.random.rand(32, 32, 3)
         st.image(reconstructed, caption="Reconstrucción simulada", width=200)
