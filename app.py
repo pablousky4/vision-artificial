@@ -1,9 +1,8 @@
 import streamlit as st
 import tensorflow as tf
-from tensorflow.keras import datasets, layers, models
+from tensorflow.keras import layers, models
 import numpy as np
 from PIL import Image
-import io
 import matplotlib.pyplot as plt
 
 # -------------------------------
@@ -13,71 +12,65 @@ st.set_page_config(page_title="CNN Visualizer - CIFAR10", layout="wide")
 st.title("🧠 Visualización de Red Neuronal Convolucional (CNN) - CIFAR10")
 
 # -------------------------------
-# 🔹 Función para crear el modelo
+# 🔹 Crear el modelo funcional
 # -------------------------------
 @st.cache_resource
 def load_model():
-    model = models.Sequential([
-        layers.Input(shape=(32, 32, 3)),  # ✅ Define Input explícitamente
-        layers.Conv2D(32, (3, 3), activation='relu', name='conv1'),
-        layers.MaxPooling2D((2, 2), name='pool1'),
-        layers.Conv2D(64, (3, 3), activation='relu', name='conv2'),
-        layers.MaxPooling2D((2, 2), name='pool2'),
-        layers.Flatten(name='flatten'),
-        layers.Dense(64, activation='relu', name='dense1'),
-        layers.Dense(10, activation='softmax', name='output')
-    ])
+    inputs = tf.keras.Input(shape=(32, 32, 3), name="input")
+
+    # Bloques de la CNN
+    x = layers.Conv2D(32, (3, 3), activation='relu', name='conv1')(inputs)
+    x = layers.MaxPooling2D((2, 2), name='pool1')(x)
+    x = layers.Conv2D(64, (3, 3), activation='relu', name='conv2')(x)
+    x = layers.MaxPooling2D((2, 2), name='pool2')(x)
+    x = layers.Flatten(name='flatten')(x)
+    x = layers.Dense(64, activation='relu', name='dense1')(x)
+    outputs = layers.Dense(10, activation='softmax', name='output')(x)
+
+    model = models.Model(inputs=inputs, outputs=outputs, name="cnn_cifar10")
 
     # Compilación
     model.compile(optimizer='adam',
                   loss='sparse_categorical_crossentropy',
                   metrics=['accuracy'])
-    
-    # Carga de pesos entrenados
+
+    # Cargar pesos (si existen)
     try:
-        model.load_weights("cnn_cifar10.weights.h5")  # ✅ Nombre correcto
+        model.load_weights("cnn_cifar10.weights.h5")
         st.success("✅ Pesos cargados correctamente")
     except Exception as e:
-        st.warning(f"No se pudo cargar el archivo de pesos: {e}")
-    
+        st.warning(f"No se pudieron cargar los pesos: {e}")
+
     return model
 
 
 model = load_model()
 
-# Si no está construido aún (seguridad extra)
-if not model.built:
-    model.build((None, 32, 32, 3))
-
-# Lista de clases CIFAR-10
+# Clases CIFAR-10
 class_names = [
     'avión', 'auto', 'pájaro', 'gato', 'ciervo',
     'perro', 'rana', 'caballo', 'barco', 'camión'
 ]
 
 # -------------------------------
-# 🔹 Subida de imagen
+# 🔹 Subir imagen
 # -------------------------------
 st.header("📸 Subir imagen para clasificación")
-
-uploaded_file = st.file_uploader("Sube una imagen (formato JPG o PNG)", type=["jpg", "jpeg", "png"])
+uploaded_file = st.file_uploader("Sube una imagen (JPG o PNG)", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
-    # Leer y preprocesar imagen
     image = Image.open(uploaded_file).convert("RGB").resize((32, 32))
     img_array = np.array(image) / 255.0
     input_data = np.expand_dims(img_array, axis=0)
 
-    # Mostrar imagen original
     st.image(image, caption="🖼️ Imagen subida", width=200)
 
-    # Predicción
     prediction = model.predict(input_data)
     predicted_class = np.argmax(prediction)
     st.subheader(f"🎯 Predicción: {class_names[predicted_class].capitalize()}")
 
     # -------------------------------
-    # 🔹 Visualizar paso a paso
+    # 🔹 Visualización paso a paso
     # -------------------------------
     st.header("🔍 Proceso de la red (Conv → Pool → Flatten → Dense → Output)")
 
@@ -88,8 +81,7 @@ if uploaded_file is not None:
     for layer_name, activation in zip([l.name for l in model.layers], activations):
         st.markdown(f"#### 🔸 Capa: `{layer_name}` — Salida: {activation.shape}")
 
-        # Mostrar solo las primeras 4 activaciones si es conv/pool
-        if activation.ndim == 4:
+        if activation.ndim == 4:  # Capas Conv o Pool
             num_features = activation.shape[-1]
             n = min(4, num_features)
             fig, axarr = plt.subplots(1, n, figsize=(10, 3))
@@ -101,14 +93,14 @@ if uploaded_file is not None:
             st.write(activation[0])
 
 # -------------------------------
-# 🔹 Reconstrucción inversa
+# 🔹 Reconstrucción inversa (demo)
 # -------------------------------
 st.header("🔁 Reconstrucción inversa (experimental)")
 
 st.markdown("""
-Intenta subir un archivo de salida (por ejemplo, los valores del `output layer`)
-para ver una reconstrucción aproximada de la imagen original.  
-⚠️ Esto es **experimental** y no garantiza una reconstrucción fiel.
+Sube un archivo `.npy` con un vector de salida del modelo (10 valores),
+para ver una reconstrucción simbólica.  
+⚠️ Esto es **una simulación educativa**, ya que una CNN no es invertible.
 """)
 
 inverse_file = st.file_uploader("Sube archivo de salida (.npy)", type=["npy"], key="inverse")
@@ -118,16 +110,14 @@ if inverse_file is not None:
         output_array = np.load(inverse_file)
         st.write("✅ Archivo cargado correctamente")
 
-        # Reconstrucción inversa básica (placeholder)
-        # ⚠️ Esto es simbólico, ya que la CNN no es invertible
-        reconstructed = np.random.rand(32, 32, 3)  # Simulación
+        reconstructed = np.random.rand(32, 32, 3)
         st.image(reconstructed, caption="Reconstrucción simulada", width=200)
-        st.info("La reconstrucción inversa completa requeriría un modelo generativo (p. ej., un autoencoder).")
+        st.info("La reconstrucción real requeriría un modelo generativo (autoencoder, GAN, etc.).")
     except Exception as e:
         st.error(f"Error al reconstruir: {e}")
 
 # -------------------------------
-# 🔹 Pie de página
+# 🔹 Pie
 # -------------------------------
 st.markdown("---")
 st.caption("🧠 App desarrollada con TensorFlow + Streamlit | CIFAR-10 CNN Demo")
