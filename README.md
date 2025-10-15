@@ -28,6 +28,7 @@ Asegúrate de tener instaladas las siguientes dependencias:
 pip install streamlit tensorflow matplotlib pillow numpy
 
 ---
+🏗️ Estructura del proyecto
 <pre> ```
 📁 vision-artificial/
 │
@@ -86,6 +87,19 @@ Caballo 🐴
 Barco 🚤
 
 Camión 🚚
+
+---
+
+🎓 Uso educativo
+
+Esta app fue diseñada para fines educativos, ideal para visualizar cómo una CNN procesa la información en tareas de clasificación de imágenes.
+
+---
+
+La reconstrucción inversa es una simulación, ya que las CNN no son directamente invertibles sin modelos generativos (como Autoencoders o GANs).
+
+📁 Ejemplo visual
+<img src="https://upload.wikimedia.org/wikipedia/commons/6/61/CIFAR10.png" width="400"/>
 
 ---
 
